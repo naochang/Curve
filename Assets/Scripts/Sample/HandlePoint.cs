@@ -142,7 +142,6 @@ namespace Sample {
 				if (this.Handle1Trans.localPosition != this.prevHandle1Pos) {
 					this.Handle2Trans.localPosition = -1f * this.Handle1Trans.localPosition;
 					this.prevHandle1Pos = this.Handle1Trans.localPosition;
-					print("here");
 				}
 				else if (this.Handle2Trans.localPosition != this.prevHandle2Pos) {
 					this.Handle1Trans.localPosition = -1f * this.Handle2Trans.localPosition;
