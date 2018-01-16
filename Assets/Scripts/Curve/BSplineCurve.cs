@@ -7,6 +7,31 @@ namespace Curve {
 		protected static float Epsilon = 1.192093E-07f;
 
 		/// <summary>
+		/// Bスプライン基底関数。
+		/// </summary>
+		protected static float BSplineBasisFunc(int i, int degree, float t, float[] knots) {
+			if (degree == 0) {
+				if (t >= knots[i] && t < knots[i + 1])
+					return 1f;
+				else
+					return 0f;
+			}
+
+			float w1 = 0f;
+			float w2 = 0f;
+			float denominatorA = knots[i + degree] - knots[i];
+			float denominatorB = knots[i + degree + 1] - knots[i + 1];
+
+			if (denominatorA != 0f)
+				w1 = (t - knots[i]) / denominatorA;
+
+			if (denominatorB != 0f)
+				w2 = (knots[i + degree + 1] - t) / denominatorB;
+
+			return w1 * BSplineCurve.BSplineBasisFuginc(i, degree - 1, t, knots) + w2 * BSplineCurve.BSplineBasisFunc(i + 1, degree - 1, t, knots);
+		}
+
+		/// <summary>
 		/// 次数。
 		/// </summary>
 		[SerializeField, Range(1, 10)]
@@ -126,7 +151,7 @@ namespace Curve {
 			Vector3 linePoint = Vector3.zero;
 
 			for (int i = 0; i < this.points.Length; ++i) {
-				float bs = this.BSplineBasisFunc(i, this.degree, t);
+				float bs = BSplineCurve.BSplineBasisFunc(i, this.degree, t, this.knots);
 				linePoint += bs * this.points[i];
 			}
 
@@ -150,31 +175,6 @@ namespace Curve {
 				0.5f * (this.points[i] - 2f * this.points[i + 1] + this.points[i + 2]) * t * t +
 				0.5f * (-this.points[i] + this.points[i + 2]) * t +
 				1f/6f * (this.points[i] + 4f * this.points[i + 1] + this.points[i + 2]);
-		}
-
-		/// <summary>
-		/// Bスプライン基底関数。
-		/// </summary>
-		protected float BSplineBasisFunc(int i, int degree, float t) {
-			if (degree == 0) {
-				if (t >= this.knots[i] && t < this.knots[i + 1])
-					return 1f;
-				else
-					return 0f;
-			}
-
-			float w1 = 0f;
-			float w2 = 0f;
-			float denominatorA = this.knots[i + degree] - this.knots[i];
-			float denominatorB = this.knots[i + degree + 1] - this.knots[i + 1];
-
-			if (denominatorA != 0f)
-				w1 = (t - this.knots[i]) / denominatorA;
-
-			if (denominatorB != 0f)
-				w2 = (this.knots[i + degree + 1] - t) / denominatorB;
-
-			return w1 * BSplineBasisFunc(i, degree - 1, t) + w2 * BSplineBasisFunc(i + 1, degree - 1, t);
 		}
 
 		/// <summary>

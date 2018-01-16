@@ -34,7 +34,7 @@ namespace Curve {
 			float weight = 0f;
 
 			for (int i = 0; i < this.points.Length; ++i) {
-				float bs = this.BSplineBasisFunc(i, this.degree, t);
+				float bs = BSplineCurve.BSplineBasisFunc(i, this.degree, t, this.knots);
 				linePoint += bs * this.weights[i] * this.points[i];
 				weight += bs * this.weights[i];
 			}
