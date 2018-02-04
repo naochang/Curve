@@ -28,7 +28,7 @@ namespace Curve {
 			if (denominatorB != 0f)
 				w2 = (knots[i + degree + 1] - t) / denominatorB;
 
-			return w1 * BSplineCurve.BSplineBasisFuginc(i, degree - 1, t, knots) + w2 * BSplineCurve.BSplineBasisFunc(i + 1, degree - 1, t, knots);
+			return w1 * BSplineCurve.BSplineBasisFunc(i, degree - 1, t, knots) + w2 * BSplineCurve.BSplineBasisFunc(i + 1, degree - 1, t, knots);
 		}
 
 		/// <summary>
