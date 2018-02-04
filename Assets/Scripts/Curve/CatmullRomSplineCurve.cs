@@ -53,15 +53,15 @@ namespace Curve {
 				this.dividedCount = lineCount;
 
 
-			Vector3[] linePoints = new Vector3[this.dividedCount + 1];
+			Vector3[] linePoints = new Vector3[this.dividedCount + (!this.closed ? 1 : 0)];
 			int eachDividedCount = this.dividedCount / lineCount;
 			float step = 1f / eachDividedCount;
 
 			for (int p = 0; p < lineCount; ++p) {
-				for (int i = 0; i <= eachDividedCount; ++i) {
+				for (int i = 0; i < eachDividedCount; ++i) {
 					Vector3 point;
 
-					if (p == 0) {
+					if (!this.closed && p == 0) {
 						point = CatmullRomFirst(i * step,
 							this.points[p    ],
 							this.points[p + 1],
@@ -77,7 +77,7 @@ namespace Curve {
 					}
 					else {
 						point = CatmullRom(i * step,
-							this.points[p - 1],
+							this.points[p == 0 ? this.points.Length - 1 : p - 1],
 							this.points[p    ],
 							this.points[(p + 1) % this.points.Length],
 							this.points[(p + 2) % this.points.Length]
@@ -87,6 +87,9 @@ namespace Curve {
 					linePoints[p * eachDividedCount + i] = point;
 				}
 			}
+
+			if (!this.closed)
+				linePoints[linePoints.Length - 1] = this.points[this.points.Length - 1];
 
 			return linePoints;
 		}
