@@ -18,10 +18,10 @@ namespace Curve {
 		/// <summary>
 		/// Catmull-Romの最初のポイント。
 		/// </summary>
-		static Vector3 CatmullRomFirst(float t, Vector3 p1, Vector3 p2, Vector3 p3) {
-			Vector3 b = p1 - 2f * p2 + p3;
-			Vector3 c = -3f * p1 + 4f * p2 - p3;
-			Vector3 d = 2f * p1;
+		static Vector3 CatmullRomFirst(float t, Vector3 p0, Vector3 p1, Vector3 p2) {
+			Vector3 b = p0 - 2f * p1 + p2;
+			Vector3 c = -3f * p0 + 4f * p1 - p2;
+			Vector3 d = 2f * p0;
 
 			return 0.5f * ((b * t * t) + (c * t) + d);
 		}
