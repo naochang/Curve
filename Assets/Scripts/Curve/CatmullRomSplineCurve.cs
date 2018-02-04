@@ -78,7 +78,7 @@ namespace Curve {
 					else {
 						point = CatmullRom(i * step,
 							this.points[p == 0 ? this.points.Length - 1 : p - 1],
-							this.points[p    ],
+							this.points[p],
 							this.points[(p + 1) % this.points.Length],
 							this.points[(p + 2) % this.points.Length]
 						);
