@@ -3,8 +3,7 @@ using System;
 
 namespace Curve {
 	public class BSplineCurve : CurveBase {
-		// 参照 : http://d.hatena.ne.jp/nakamura001/20150117/1421501942
-		protected static float Epsilon = 1.192093E-07f;
+		protected static float Epsilon = 0.000001f;
 
 		/// <summary>
 		/// Bスプライン基底関数。
@@ -28,7 +27,17 @@ namespace Curve {
 			if (denominatorB != 0f)
 				w2 = (knots[i + degree + 1] - t) / denominatorB;
 
-			return w1 * BSplineCurve.BSplineBasisFunc(i, degree - 1, t, knots) + w2 * BSplineCurve.BSplineBasisFunc(i + 1, degree - 1, t, knots);
+
+			float firstTerm = 0f;
+			float secondTerm = 0f;
+
+			if (w1 != 0f)
+				firstTerm = w1 * BSplineCurve.BSplineBasisFunc(i, degree - 1, t, knots);
+			
+			if (w2 != 0f)
+				secondTerm = w2 * BSplineCurve.BSplineBasisFunc(i + 1, degree - 1, t, knots);
+
+			return firstTerm + secondTerm;
 		}
 
 		/// <summary>
