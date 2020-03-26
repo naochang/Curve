@@ -1,0 +1,2 @@
+## License
+Public domain
